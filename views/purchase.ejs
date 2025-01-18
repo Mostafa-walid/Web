@@ -112,3 +112,38 @@
     <script src="../public/js/purchase.js"></script>
     <script type="module">
       import showMsg from "/js/toastify.js";
+   document
+        .getElementById("carForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = new FormData(event.target);
+          const formValues = Object.fromEntries(formData.entries());
+          formValues;
+          formValues.carId = "<%=car._id%>";
+
+          fetch(`/users/<%=user._id%>/purchase`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ purchaseDetails: formValues }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.errMsg) {
+                showMsg(data.errMsg, "red");
+              } else {
+                showMsg("Purchase done successfully", "green");
+                setTimeout(() => {
+                  location.href = `/user/<%= user._id %>/cars`;
+                }, 2000);
+              }
+            })
+            .catch((error) => {
+              showMsg("Error: " + error, "red");
+            });
+        });
+    </script>
+  </body>
+</html>
