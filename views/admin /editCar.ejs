@@ -301,3 +301,99 @@
 					const wheelbase = formData.get("wheelbase");
 					const quantity = formData.get("quantity");
 					const images = formData.getAll("images");
+					const carData = {
+						type,
+						description,
+						model,
+						yearOfManufacture,
+						price,
+						horsePower,
+						cylinders,
+						transmission,
+						cc,
+						color,
+						airbags,
+						EBD,
+						ABS,
+						length,
+						width,
+						height,
+						wheelbase,
+						quantity,
+					};
+
+					if (price < 0)
+						return showMsg("price should not be negative ", "red");
+					if (yearOfManufacture < 1900 || yearOfManufacture > 2025)
+						return showMsg("please enter a valid year ", "red");
+					if (length < 0)
+						return showMsg("length should not be negative ", "red");
+					if (width < 0)
+						return showMsg("width should not be negative ", "red");
+					if (height < 0)
+						return showMsg("height should not be negative ", "red");
+					if (quantity < 0)
+						return showMsg(
+							"quantity should not be negative ",
+							"red"
+						);
+					if (wheelbase < 0)
+						return showMsg(
+							"wheel Base should not be negative ",
+							"red"
+						);
+					if (airbags < 0)
+						return showMsg(
+							"Air bag Base should not be negative ",
+							"red"
+						);
+
+					const imageFiles = Array.from(images);
+					const imageUrls = await Promise.all(
+						imageFiles.map(async (imageFile) => {
+							const imageUrl = await uploadImage(imageFile);
+							return imageUrl;
+						})
+					);
+
+					carData.images = imageUrls;
+
+					fetch("/cars/<%=car._id %>", {
+						method: "put",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify(carData),
+					})
+						.then((response) => response.json())
+						.then((data) => {
+							console.log(data);
+							if (data.errMsg) showMsg(data.errMsg, "red");
+							else {
+								showMsg("Car updated successfully", "green");
+								setTimeout(() => {
+									setTimeout(function () {
+										location.href =
+											"/admin/<%= user._id%>/cars";
+									}, 2000);
+								});
+							}
+						})
+						.catch((error) => {
+							showMsg("Error: " + error, "red");
+						});
+				});
+
+			async function uploadImage(imageFile) {
+				const formData = new FormData();
+				formData.append("image", imageFile);
+
+				const response = await fetch("/cars/upload", {
+					method: "POST",
+					body: formData,
+				});
+
+				const data = await response.json();
+				return data.imageUrl;
+			}
+		</script>
+	</body>
+</html>
