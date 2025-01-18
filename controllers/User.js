@@ -105,3 +105,44 @@ const updateUser = async (req, res) => {
 		if (!updatedUser) {
 			return res.status(404).json({ errMsg: "User not found" });
 		}
+	const user = updatedUser;
+		res.render("profile", { user });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ errMsg: "Server error", error });
+	}
+};
+
+const updatePassword = async (req, res) => {
+	try {
+	  const { id } = req.params;
+	  const { currentPassword, newPassword, confirmPassword } = req.body;
+  
+	  // Validate the user exists
+	  const user = await User.findById(id);
+	  if (!user) {
+		console.log(`User not found for ID: ${id}`);
+		return res.status(404).send("User not found");
+	  }
+  
+	  // Validate current password
+	  const isMatch = await bcrypt.compare(currentPassword, user.password);
+	  if (!isMatch) {
+		return res.status(400).send("Current password is incorrect");
+	  }
+  
+	  // Validate new passwords match
+	  if (newPassword !== confirmPassword) {
+		return res.status(400).send("New passwords do not match");
+	  }
+  
+	  // Hash the new password
+	  const salt = await bcrypt.genSalt();
+	  const hashedPassword = await bcrypt.hash(newPassword, salt);
+  
+	  // Update password directly
+	  const updatedUser = await User.findByIdAndUpdate(
+		id,
+		{ password: hashedPassword },
+		{ new: true, runValidators: true }
+	  );
