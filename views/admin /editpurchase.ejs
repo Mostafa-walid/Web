@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Purchase</title>
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/editUser.css" />
+</head>
+
+<body>
+  <nav>
+    <div class="logo">
+      <i class="ri-steering-2-line"></i>
+      <a href="/"><span>MAH</span>motors</a>
+    </div>
+    <div class="menubar">
+      <a href="/admin/<%= user._id %>/users">Users</a>
+      <a href="/admin/<%= user._id %>/cars">Cars</a>
+      <a href="/admin/<%= user._id %>/orders">Orders</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </nav>
+  <div class="container">
+    <h1>Edit Purchase</h1>
+    <form id="editPurchaseForm">
+      <!-- Override method to PUT -->
+      <input type="hidden" name="_method" value="PUT" />
+
+      <label for="country">Country:</label>
+      <input type="text" name="country" id="country" value="<%= purchase.country %>" required />
+
+      <label for="city">City:</label>
+      <input type="text" name="city" id="city" value="<%= purchase.city %>" required />
+
+      <label for="streetAddress">Street Address:</label>
+      <input type="text" name="streetAddress" id="streetAddress" value="<%= purchase.streetAddress %>" required />
+
+      <label for="purchaseType">Purchase Type:</label>
+      <select name="purchaseType" id="purchaseType" required>
+        <option value="cash" <%= purchase.purchaseType === "cash" ? "selected" : "" %>>Cash</option>
+        <option value="installments" <%= purchase.purchaseType === "installments" ? "selected" : "" %>>Installments</option>
+      </select>
+
+      <button type="submit" class="btn">Save</button>
+      <a href="/admin/<%= user._id %>/orders" class="btn">Cancel</a>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("editPurchaseForm");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const country = document.getElementById("country").value;
+        const city = document.getElementById("city").value;
+        const streetAddress = document.getElementById("streetAddress").value;
+        const purchaseType = document.getElementById("purchaseType").value;
+
+        const userId = "<%= user._id %>"; 
+        const purchaseId = "<%= purchase._id %>"; 
+        const url = `/admin/${userId}/edit-purchase/${purchaseId}`;
+
+        try {
+          const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ country, city, streetAddress, purchaseType }),
+          });
+
+          if (response.ok) {
+            alert("Purchase updated successfully!");
+            window.location.href = `/admin/${userId}/orders`;
+          } else {
+            const errorData = await response.json();
+            alert(`Error: ${errorData.message}`);
+          }
+        } catch (error) {
+          console.error("Error updating purchase:", error);
+          alert("An unexpected error occurred.");
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
