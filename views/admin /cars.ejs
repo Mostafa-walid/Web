@@ -115,3 +115,18 @@
 							const response = await fetch(`/cars/${carId}`, {
 								method: "DELETE",
 							});
+
+							if (response.ok) {
+								document
+									.getElementById(`car-${carId}`)
+									.remove();
+								showMsg("Car deleted successfully", "green");
+							} else {
+								showMsg("Failed to delete Car", "red");
+							}
+						});
+					});
+			});
+		</script>
+	</body>
+</html>
