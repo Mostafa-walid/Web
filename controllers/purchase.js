@@ -83,3 +83,35 @@ const getPurchaseById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const updatePurchase = async (req, res) => {
+  const { id } = req.params;
+  const { userId, carId, time, purchaseType } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No purchase with id: ${id}`);
+
+  const updatedPurchase = { userId, carId, time, purchaseType, _id: id };
+
+  await Purchase.findByIdAndUpdate(id, updatedPurchase, { new: true });
+
+  res.json(updatedPurchase);
+};
+
+const deletePurchase = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No purchase with id: ${id}`);
+
+  await Purchase.findByIdAndDelete(id);
+
+  res.json({ message: "Purchase deleted successfully" });
+};
+
+export {
+  createPurchase,
+  getPurchases,
+  getPurchaseById,
+  updatePurchase,
+  deletePurchase,
+};
