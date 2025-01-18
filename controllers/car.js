@@ -62,3 +62,23 @@ const getCarById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const updateCar = async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No car with id: ${id}`);
+
+  const updatedCar = await Car.findByIdAndUpdate(id, updates, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!updatedCar) {
+    return res.status(404).json({ errMsg: "Car not found" });
+  }
+
+  return res.status(200).json({ updatedCar });
+};
+
+export { createCar, uploadImage, getCars, getCarById, updateCar, deleteCar };
