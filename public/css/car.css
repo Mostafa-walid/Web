@@ -27,7 +27,149 @@ header {
   justify-content: space-between;
   align-items: center;
 }
+.info-description {
+  font-style: italic;
+  color: #666;
+  font-size: 16px;
+  margin-top: 10px;
+}
 
+.prodetails {
+  padding: 40px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.single-pro-image {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.small-img-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.small-img-col {
+  cursor: pointer;
+}
+
+.small-img {
+  width: 100px;
+  height: 100px;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px 40px 12px 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s;
+}
+
+.search-bar input:focus {
+  border-color: #007bff;
+}
+
+.search-bar i {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #777;
+  pointer-events: none;
+  transition: color 0.3s;
+}
+
+.search-bar input:focus + i {
+  color: #007bff;
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+
+.pagination-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+.pagination-button:hover {
+  background-color: #45a049;
+}
+
+
+.pagination-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+.pagination-info {
+  margin: 0 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+
+body.dark-mode {
+  background-color: #121212;
+  color: #fff;
+}
+
+
+#darkModeToggle {
+  font-size: 24px;
+  cursor: pointer;
+  place-items: center; 
+}
+
+#lightIcon {
+  display: block;
+}
+
+#darkIcon {
+  display: none;
+}
+
+
+body.dark-mode #lightIcon {
+  display: none;
+}
+
+body.dark-mode #darkIcon {
+  display: block;
+}
 .buttons {
   display: flex;
   gap: 10px;
