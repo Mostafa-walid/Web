@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Car Purchase</title>
+    <link rel="stylesheet" type="text/css" href="/css/purchase.css" />
+    <link rel="stylesheet" type="text/css" href="/css/navbar.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!-- Toastify -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  </head>
+  <body>
+    <%- include("./nav.ejs") %>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1>Purchase</h1>
+    <br />
+    <br />
+    <br />
+    <form id="carForm">
+      <label for="country">Country:</label>
+      <input type="text" id="country" name="country" required />
+      <label for="city">City:</label>
+      <input type="text" id="city" name="city" required />
+      <label for="streetAddress">Street Address:</label>
+      <input type="text" id="streetAddress" name="streetAddress" required />
+
+      <div class="products-section">
+        <h2>Products</h2>
+        <div class="product-item">
+          <img src="<%=car.images[0]%>" alt="MG 5" />
+          <div class="product-details">
+            <h3><%=car.model%></h3>
+            <p><%=car.description%></p>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <label>
+        <input
+          type="radio"
+          name="purchaseType"
+          value="cash"
+          required
+          onclick="updatePrice()"
+        />
+        Cash
+      </label>
+      <br />
+      <label>
+        <input
+          type="radio"
+          name="purchaseType"
+          value="installments"
+          onclick="updatePrice()"
+        />
+        Installments
+      </label>
+      <br />
+      <div id="installments" style="display: none">
+        <label>
+          <input
+            type="radio"
+            name="installment"
+            value="6"
+            onclick="selectInstallment()"
+          />
+          6 months (20% extra)
+        </label>
+        <br />
+        <label>
+          <input
+            type="radio"
+            name="installment"
+            value="12"
+            onclick="selectInstallment()"
+          />
+          12 months (35% extra)
+        </label>
+        <br />
+      </div>
+      <br />
+      <div id="priceSection" style="display: none">
+        <h2>Price</h2>
+        <p id="totalPrice"></p>
+        <p id="monthlyInstallment"></p>
+      </div>
+      <br />
+      <br />
+      <button id="payNowButton" type="submit" class="btn">Pay now</button>
+    </form>
+    <br />
+    <br />
+    <br />
+    <br />
+    <script src="../public/js/purchase.js"></script>
+    <script type="module">
+      import showMsg from "/js/toastify.js";
