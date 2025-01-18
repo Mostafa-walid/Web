@@ -47,3 +47,49 @@ table tbody tr:hover {
 table td {
 	color: #555;
 }
+.btn {
+	display: inline-block;
+	padding: 8px 12px;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 8px;
+	transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+	background: #007bff;
+	color: #fff;
+	border: none;
+}
+
+.btn-primary:hover {
+	background: #0056b3;
+	transform: scale(1.05);
+}
+
+.btn-danger {
+	background: #dc3545;
+	color: #fff;
+	border: none;
+}
+
+.btn-danger:hover {
+	background: #c82333;
+	transform: scale(1.05);
+}
+
+.table-dark {
+	background: #333;
+	color: #fff;
+}
+
+.table-dark th {
+	border: none;
+}
+
+.action-buttons {
+	display: flex;
+	gap: 10px;
+}
