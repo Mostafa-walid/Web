@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/css/navbar.css" />
+		<link rel="stylesheet" href="/css/car.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		/>
+		<title>Cars</title>
+	</head>
+	<body>
+		<%- include("./nav.ejs") %>
+
+		<div class="search-bar">
+			<input
+			  type="text"
+			  id="searchInput"
+			  placeholder="Search by model, type, or transmission..."
+			  onkeyup="filterCars()"
+			/>
+			<i class="fa fa-search"></i>
+		</div>
+		
+		<div class="carsmenu" id="cars-menu">
+			<div class="container">
+				<div class="section-header">
+					<h2>Our Cars</h2>
+				</div>
+				<div class="cars-menu-content">
+					<div class="row" id="car-list">
+						<% cars.forEach(car => { %>
+						<div class="Cars-Collage">
+							<div class="single-car">
+								<div class="single-car-image-box">
+									<a href="cars-details/<%= car._id %>">
+										<div class="car-image">
+											<img
+												src="<%= car.images[0] %>"
+												alt="<%= car.type %>"
+											/>
+										</div>
+									</a>
+									<div class="car-model-info">
+										<p>
+											model: <%= car.yearOfManufacture %><br />
+											<span class="featured-mi-span">CC : <%= car.cc %><br /></span>
+											<span class="featured-hp-span">Horse Power: <%= car.horsePower %><br /></span>
+											Transmission : <%= car.transmission %>
+										</p>
+									</div>
+								</div>
+								<div class="cars-txt">
+									<h2>
+										<a href="cars-details/<%= car._id %>"><%= car.type %> <%= car.model %></a>
+									</h2>
+									<h3>$<%= car.price.toLocaleString() %></h3>
+									<p><%= car.description %></p>
+								</div>
+							</div>
+						</div>
+						<% }) %>
+					</div>
+				</div>
+			</div>
+
+			
+			<div class="pagination">
+				<% if (currentPage > 1) { %>
+				  <a 
+					href="<%= user ? `/user/${user._id}/cars?page=${currentPage - 1}&limit=2` : `/cars?page=${currentPage - 1}&limit=2` %>" 
+					class="pagination-button">Prev</a>
+				<% } %>
+				
+				<span class="pagination-info">Page <%= currentPage %> of <%= totalPages %></span>
+				
+				<% if (currentPage < totalPages) { %>
+				  <a 
+					href="<%= user ? `/user/${user._id}/cars?page=${currentPage + 1}&limit=2` : `/cars?page=${currentPage + 1}&limit=2` %>" 
+					class="pagination-button">Next</a>
+				<% } %>
+			  </div>
+			  
