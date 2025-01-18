@@ -194,3 +194,19 @@ const addUser = async (req, res) => {
 		res.status(500).json({ error: "Failed to add user" });
 	}
 };
+export {
+	getAddUserPage,
+	addUser,
+	homePage,
+	usersPage,
+	userDetailsPage,
+	carsPage,
+	addCarPage,
+	editeCarPage,
+	editUserPage,
+	updateUser,
+	orderPage,
+	getEditPurchasePage,
+	updatePurchase,
+	deletePurchase,
+};
