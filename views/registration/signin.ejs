@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Sign in</title>
+		<link rel="stylesheet" href="/css/signin.css" />
+		
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+		/>
+		<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="header">
+				<h2>Log In</h2>
+			</div>
+			<form id="form" class="form">
+				<div class="form-control">
+					<label for="username">Username</label>
+					<input
+						type="text"
+						name="username"
+						placeholder="Please enter your username"
+						id="username"
+					/>
+				</div>
+				<div class="form-control">
+					<label for="password">Password</label>
+					<input
+						type="password"
+						name="password"
+						placeholder="Password"
+						id="password"
+					/>
+				</div>
+
+				<a href="/signup">Don't have an account?</a>
+				<button type="submit">Log In</button>
+				<a href="/" class="btn btn-secondary">
+					<i class="fa-solid fa-arrow-left"></i> Back
+				</a>
+			</form>
+		</div>
+		<script type="module">
+			import showMsg from "/js/toastify.js";
+
+			document.getElementById("form").addEventListener("submit", (e) => {
+				e.preventDefault();
+
+				const username = document.getElementById("username").value;
+				const password = document.getElementById("password").value;
+
+				if (!username || !password)
+					return showMsg("Fill all the fields", "red");
+
+				fetch("/signin", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ username, password }),
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						if (data.errMsg) return showMsg(data.errMsg, "red");
+						else
+							location.assign(
+								`/${data.user.role}/${data.user._id}`
+							);
+					})
+					.catch((error) => {
+						showMsg("Error: " + error, "red");
+					});
+			});
+		</script>
+	</body>
+</html>
