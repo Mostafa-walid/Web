@@ -1,0 +1,133 @@
+
+.profile-page {
+	display: flex;
+	min-height: 100vh;
+	background: #f9f9f9;
+	margin-top: 4em; 
+}
+
+.sidebar {
+	width: 250px;
+	background: #333;
+	color: #fff;
+	padding: 20px;
+	box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar ul {
+	list-style: none;
+	padding: 0;
+}
+
+.sidebar ul li {
+	margin-bottom: 20px;
+}
+
+.sidebar ul li a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 1rem;
+	display: block;
+	padding: 10px 15px;
+	border-radius: 5px;
+	transition: background 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+	background: #ff5722;
+	color: white;
+}
+
+
+.content {
+	flex: 1;
+	padding: 30px;
+	background: #ffffff;
+	border-radius: 10px;
+	margin: 20px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.section {
+	display: none;
+}
+
+.section.hidden {
+	display: none;
+}
+
+.section:not(.hidden) {
+	display: block;
+}
+
+.section h2 {
+	font-size: 1.5rem;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.profile-form,
+.password-form {
+	display: flex;
+	flex-direction: column;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-group label {
+	font-size: 1rem;
+	margin-bottom: 5px;
+	display: block;
+	color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+	width: 100%;
+	padding: 10px;
+	font-size: 1rem;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.update-btn {
+	background: #ff5722;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background 0.3s ease;
+}
+
+.update-btn:hover {
+	background: #e64a19;
+}
+#order-list {
+	margin-top: 20px;
+  }
+  
+  .order-item {
+	border: 1px solid #ccc;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+  }
+  .delete-btn {
+	background-color: #e74c3c;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	cursor: pointer;
+	border-radius: 5px;
+	margin-top: 20px;
+  }
+  
+  .delete-btn:hover {
+	background-color: #c0392b;
+  }
