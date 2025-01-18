@@ -70,3 +70,54 @@ button[type="submit"]:hover {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+.product-item {
+  display: flex;
+  align-items: center;
+}
+
+.product-item img {
+  width: 80px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.product-details h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.product-details p {
+  margin-top: 0;
+  color: #666;
+}
+
+.color-options {
+  display: flex;
+  margin-top: 10px;
+}
+
+.color-circle {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.red { background-color: red; }
+.blue { background-color: blue; }
+.white { background-color: white; border: 1px solid #ccc; }
+.black { background-color: black; }
+.silver { background-color: silver; }
+
+.color-circle.selected {
+  border-color: #333;
+}
+
+.error {
+  color: red;
+}
