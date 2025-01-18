@@ -16,3 +16,32 @@ const cartItemSchema = new mongoose.Schema(
   },
   { _id: false }
 );
+const purchaseSchema = mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  cart: [cartItemSchema],
+  totalPrice: {
+    type: Number,
+    min: 0,
+  },
+  amountPaid: {
+    type: Number,
+    min: 0,
+  },
+  time: {
+    type: Date,
+    default: Date.now,
+  },
+  purchaseType: {
+    type: String,
+    enum: ["cash", "loan"],
+    required: true,
+  },
+});
+
+const Purchase = mongoose.model("Purchase", purchaseSchema);
+
+export default Purchase;
