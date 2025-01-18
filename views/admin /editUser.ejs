@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Edit User</title>
+		<link rel="stylesheet" href="/css/navbar.css" />
+		<link rel="stylesheet" href="/css/editUser.css" />
+	</head>
+	<body>
+		<nav>
+			<div class="logo">
+				<i class="ri-steering-2-line"></i>
+				<a href="/"><span>MAH</span>motors</a>
+			</div>
+			<div class="menubar">
+				<a href="/admin/<%=user._id%>/users">Users</a>
+				<a href="/admin/<%=user._id%>/cars">Cars</a>
+				<a href="/admin/<%=user._id%>/orders">Orders</a>
+				<a href="/logout">Logout</a>
+			</div>
+		</nav>
+		<div class="container">
+			<h1>Edit User</h1>
+			<form
+				id="editUserForm"
+			>
+				<!-- Override method to PUT -->
+				<input type="hidden" name="_method" value="PUT" />
+
+				<label for="role">Role:</label>
+				<select name="role" id="role" required>
+					<option value="admin" <%= targetUser.role === 'admin' ? 'selected' : '' %>>Admin</option>
+					<option value="user" <%= targetUser.role === 'user' ? 'selected' : '' %>>User</option>
+				</select>
+
+				<label for="username">Username:</label>
+				<input type="text" name="username" id="username" value="<%= targetUser.username %>" required />
+
+				<label for="email">Email:</label>
+				<input type="email" name="email" id="email" value="<%= targetUser.email %>" required />
+
+				<label for="password">Password:</label>
+				<input type="password" name="password" id="password" placeholder="Leave empty if you don't want to change it"/>
+
+				<button type="submit" class="btn">Save</button>
+				<a href="/admin/<%=user._id%>/user/<%= targetUser._id %>" class="btn">Cancel</a>
+			</form>
+		</div>
+	</body>
