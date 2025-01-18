@@ -45,3 +45,48 @@
 				<button type="submit" class="btn">Add User</button>
 			</form>
 		</div>
+<script>
+			document
+				.getElementById("addUserForm")
+				.addEventListener("submit", async (event) => {
+					event.preventDefault();
+
+					const name = document.getElementById("name").value;
+					const username = document.getElementById("username").value;
+					const email = document.getElementById("email").value;
+					const password = document.getElementById("password").value;
+					const role = document.getElementById("role").value;
+
+					const adminId = "<%= adminId %>";
+					const url = `/admin/${adminId}/add-user`;
+
+					try {
+						const response = await fetch(url, {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								name,
+								username,
+								email,
+								password,
+								role,
+							}),
+						});
+
+						if (response.ok) {
+							alert("User added successfully!");
+							window.location.href = `/admin/${adminId}/users`;
+						} else {
+							const errorData = await response.json();
+							alert(`Error: ${errorData.error}`);
+						}
+					} catch (error) {
+						console.error("Error adding user:", error);
+						alert("An unexpected error occurred.");
+					}
+				});
+		</script>
+	</body>
+</html>
