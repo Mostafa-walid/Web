@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Sign Up</title>
+		<!-- Toastify -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+		/>
+		<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+		<link rel="stylesheet" href="/css/signup.css" />
+	</head>
+	<body>
+		<div class="container">
+			<!-- Back Button -->
+
+			<div class="header">
+				<h2>Create Account</h2>
+			</div>
+
+			<form id="form" class="form">
+				<div class="form-control">
+					<label for="name">Name</label>
+					<input
+						type="text"
+						name="name"
+						placeholder="Please enter name"
+						id="name"
+					/>
+				</div>
+				<div class="form-control">
+					<label for="username">Username</label>
+					<input
+						type="text"
+						name="username"
+						placeholder="Please enter username"
+						id="username"
+					/>
+				</div>
+				<div class="form-control">
+					<label for="email">Email</label>
+					<input
+						type="text"
+						name="email"
+						placeholder="Please enter a valid email"
+						id="email"
+					/>
+				</div>
+				<div class="form-control">
+					<label for="password">Password</label>
+					<input
+						type="password"
+						name="password"
+						placeholder="Password"
+						id="password"
+					/>
+				</div>
+				<div class="form-control">
+					<label for="password2">Confirm Password</label>
+					<input
+						type="password"
+						name="password2"
+						placeholder="Confirm Password"
+						id="password2"
+					/>
+				</div>
+				<a href="/signin">Already have an account?</a>
+				<button>Submit</button>
+				<a href="/" class="btn btn-secondary">
+					<i class="fa-solid fa-arrow-left"></i> Back
+				</a>
+			</form>
+		</div>
+
+		<script type="module">
+			import showMsg from "/js/toastify.js";
+
+			document.getElementById("form").addEventListener("submit", (e) => {
+				e.preventDefault();
+
+				const name = document.getElementById("name").value;
+				const username = document.getElementById("username").value;
+				const email = document.getElementById("email").value;
+				const password = document.getElementById("password").value;
+				const cPassword = document.getElementById("password2").value;
+
+				if (!name || !username || !email || !password || !cPassword)
+					return showMsg("Fill all the fields", "red");
+
+				const namePattern = /^[a-zA-Z]+$/;
+				if (!namePattern.test(name)) {
+					return showMsg("Name should contain letters only", "red");
+				}
+
+				const emailPattern =
+					/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+				if (!emailPattern.test(email))
+					return showMsg("Enter a valid email address", "red");
+
+				if (password != cPassword)
+					return showMsg("Paswords should match", "red");
+
+				fetch("/signup", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ name, username, password, email }),
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						if (data.errMsg) return showMsg(data.errMsg, "red");
+						else
+							location.assign(
+								`/${data.user.role}/${data.user._id}`
+							);
+					})
+					.catch((error) => {
+						showMsg("Error: " + error, "red");
+					});
+			});
+		</script>
+	</body>
+</html>
