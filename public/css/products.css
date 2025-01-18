@@ -1,0 +1,101 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f4f4f4;
+}
+
+main {
+  margin-top: 100px;
+}
+
+.action-btns {
+  display: block;
+  text-wrap: nowrap;
+}
+.action-btns button {
+  margin: 2px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.add-btn {
+  background-color: green;
+  font-size: 20px;
+  padding: 10px 15px;
+  color: white;
+}
+.add-btn:hover {
+  background-color: rgb(12, 93, 12);
+  color: rgb(149, 149, 149);
+}
+h1,
+h2 {
+  color: #333;
+}
+
+#carList div {
+  background: white;
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  margin-right: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+  padding: 8px;
+  margin-right: 10px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  width: 200px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+header {
+  background-color: #343a40;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.header-logo img {
+  height: 50px;
+}
+
+.header-nav {
+  margin-left: auto;
+  display: flex;
+}
+
+.header-nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  margin: 0 5px;
+  font-size: 16px;
+}
+
+.header-nav a:hover {
+  background-color: #495057;
+  border-radius: 5px;
+}
