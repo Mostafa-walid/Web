@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/css/navbar.css" />
+		<link rel="stylesheet" href="/css/addUser.css" />
+		<title>Add User</title>
+	</head>
+
+	<body>
+		<nav>
+			<div class="logo">
+				<i class="ri-steering-2-line"></i>
+				<a href="/"><span>MAH</span>motors</a>
+			</div>
+			<div class="menubar">
+				<a href="/admin/<%= adminId %>/users">Users</a>
+				<a href="/admin/<%= adminId %>/cars">Cars</a>
+				<a href="/admin/<%= adminId %>/orders">Orders</a>
+				<a href="/logout">Logout</a>
+			</div>
+		</nav>
+		<div class="container">
+			<h1>Add New User</h1>
+			<form id="addUserForm">
+				<label for="name">Name:</label>
+				<input type="text" name="name" id="name" required />
+
+				<label for="username">Username:</label>
+				<input type="text" name="username" id="username" required />
+
+				<label for="email">Email:</label>
+				<input type="email" name="email" id="email" required />
+
+				<label for="password">Password:</label>
+				<input type="password" name="password" id="password" required />
+
+				<label for="role">Role:</label>
+				<select name="role" id="role" required>
+					<option value="user">User</option>
+					<option value="admin">Admin</option>
+				</select>
+
+				<button type="submit" class="btn">Add User</button>
+			</form>
+		</div>
