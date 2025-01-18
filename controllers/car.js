@@ -22,3 +22,21 @@ const uploadImage = async (req, res) => {
   const imageUrl = "/img/" + req.file.filename;
   res.json({ imageUrl });
 };
+const deleteCar = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const car = await Car.findById(id);
+
+    if (!car) {
+      return res.status(404).json({ errMsg: "Car not found" });
+    }
+
+    await Car.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "Car deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ errMsg: error });
+  }
+};
