@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= car.type %></title>
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/car.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!-- Toastify -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  </head>
+  <body>
+    <%- include("./nav.ejs") %>
+    <section class="prodetails">
+      <h1><%= car.type %> <%= car.model %></h1>
+      <br />
+      <div class="single-pro-image">
+        <img src="<%= car.images[0] %>" width="100%" id="MainImg" alt="" />
+        <div class="small-img-group">
+          <% car.images.forEach(function(image) { %>
+          <div class="small-img-col">
+            <img src="<%= image %>" class="small-img" alt="" />
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section id="details">
+      <div class="section-content">
+        <h2>Details and Specifications</h2>
+        <div class="table-container">
+          <h3>Engine & Power</h3>
+          <table>
+            <tr>
+              <th>Horsepower</th>
+              <td><%= car.horsePower %> HP</td>
+            </tr>
+            <tr>
+              <th>Cylinders</th>
+              <td><%= car.cylinders %></td>
+            </tr>
+            <tr>
+              <th>Transmission</th>
+              <td><%= car.transmission %></td>
+            </tr>
+            <tr>
+              <th>CC</th>
+              <td><%= car.cc %></td>
+            </tr>
+          </table>
+        </div>
+        <div class="table-container">
+          <h3>Safety Features</h3>
+          <table>
+            <tr>
+              <th>Airbags</th>
+              <td><%= car.airbags %> (Front, Side, and Curtain)</td>
+            </tr>
+            <tr>
+              <th>EBD</th>
+              <td><%= car.EBD ? "Yes" : "No" %></td>
+            </tr>
+            <tr>
+              <th>ABS</th>
+              <td><%= car.ABS ? "Yes" : "No" %></td>
+            </tr>
+          </table>
+        </div>
