@@ -149,3 +149,48 @@ const updatePurchase = async (req, res) => {
 		res.status(500).json({ error: "Server error" });
 	}
 };
+const deletePurchase = async (req, res) => {
+	try {
+		const { userId, purchaseId } = req.params;
+
+		// Find the user and remove the purchase
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(404).send("User not found");
+		}
+
+		user.purchases = user.purchases.filter(
+			(p) => p._id.toString() !== purchaseId
+		);
+		await user.save();
+
+		res.status(200).json({ message: "Purchase deleted successfully" });
+	} catch (error) {
+		console.error("Error deleting purchase:", error);
+		res.status(500).json({ error: "Server error" });
+	}
+};
+
+const getAddUserPage = async (req, res) => {
+	try {
+		const adminId = req.params.userId;
+		res.render("admin/addUser", { adminId });
+	} catch (error) {
+		console.error("Error rendering Add User page:", error);
+		res.status(500).send("Server error");
+	}
+};
+
+const addUser = async (req, res) => {
+	try {
+		const { name, username, email, password, role } = req.body;
+
+		const newUser = new User({ name, username, email, password, role });
+		await newUser.save();
+
+		res.status(200).json({ message: "User added successfully!" });
+	} catch (error) {
+		console.error("Error adding user:", error);
+		res.status(500).json({ error: "Failed to add user" });
+	}
+};
