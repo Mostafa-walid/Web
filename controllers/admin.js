@@ -65,3 +65,87 @@ const orderPage = async (req, res) => {
 		res.status(500).send("Server error");
 	}
 };
+const userDetailsPage = async (req, res) => {
+	res.render("admin/userDetails", {
+		user: await User.findById(req.params.userId),
+		targetUser: await User.findById(req.params.targetUserId),
+	});
+};
+
+const carsPage = async (req, res) => {
+	res.render("admin/cars", {
+		user: await User.findById(req.params.userId),
+		cars: await Car.find(),
+	});
+};
+
+const addCarPage = async (req, res) => {
+	res.render("admin/addCar", {
+		user: await User.findById(req.params.userId),
+	});
+};
+
+const editeCarPage = async (req, res) => {
+	res.render("admin/editeCar", {
+		user: await User.findById(req.params.userId),
+		car: await Car.findById(req.params.carId),
+	});
+};
+
+const getEditPurchasePage = async (req, res) => {
+	try {
+		const { userId, purchaseId } = req.params;
+
+		// Find the user and fetch the specific purchase
+		const user = await User.findById(userId).populate("purchases.carId");
+		if (!user) {
+			return res.status(404).send("User not found");
+		}
+
+		const purchase = user.purchases.find(
+			(p) => p._id.toString() === purchaseId
+		);
+		if (!purchase) {
+			return res.status(404).send("Purchase not found");
+		}
+
+		// Render the edit page with the purchase data
+		res.render("admin/editPurchase", { user, purchase });
+	} catch (error) {
+		console.error("Error fetching purchase for edit:", error);
+		res.status(500).send("Server error");
+	}
+};
+
+const updatePurchase = async (req, res) => {
+	try {
+		const { userId, purchaseId } = req.params;
+		const { country, city, streetAddress, purchaseType } = req.body;
+
+		// Find the user and update the specific purchase
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(404).send("User not found");
+		}
+
+		const purchase = user.purchases.find(
+			(p) => p._id.toString() === purchaseId
+		);
+		if (!purchase) {
+			return res.status(404).send("Purchase not found");
+		}
+
+		// Update the purchase details
+		purchase.country = country;
+		purchase.city = city;
+		purchase.streetAddress = streetAddress;
+		purchase.purchaseType = purchaseType;
+
+		await user.save();
+
+		res.status(200).json({ message: "Purchase updated successfully" });
+	} catch (error) {
+		console.error("Error updating purchase:", error);
+		res.status(500).json({ error: "Server error" });
+	}
+};
