@@ -132,3 +132,95 @@
 				  </section>
 			</div>
 		</div>
+<script>
+			const links = document.querySelectorAll(".sidebar ul li a");
+			const sections = document.querySelectorAll(".section");
+
+			links.forEach((link) => {
+				link.addEventListener("click", (event) => {
+					event.preventDefault();
+
+					// Hide all sections
+					sections.forEach((section) =>
+						section.classList.add("hidden")
+					);
+
+					// Show the selected section
+					const sectionId = link.dataset.section;
+					document
+						.getElementById(sectionId)
+						.classList.remove("hidden");
+
+					// Remove active class from all links
+					links.forEach((l) => l.classList.remove("active"));
+
+					// Add active class to the clicked link
+					link.classList.add("active");
+				});
+			});
+
+			async function fetchOrderHistory(userId) {
+    try {
+      const response = await fetch(`/users/order-history/${userId}`);
+      const data = await response.json();
+
+      const orderList = document.getElementById("order-list");
+      const noOrdersMessage = document.getElementById("no-orders");
+
+      if (data.purchases && data.purchases.length > 0) {
+        noOrdersMessage.style.display = "none";
+
+        data.purchases.forEach((purchase) => {
+          const orderItem = document.createElement("div");
+          orderItem.className = "order-item";
+
+          orderItem.innerHTML = `
+            <p><strong>Car ID:</strong> ${purchase.carId?._id || "N/A"}</p>
+            <p><strong>Purchase Type:</strong> ${purchase.purchaseType}</p>
+            <p><strong>Address:</strong> ${purchase.streetAddress || "N/A"}, 
+              ${purchase.city || "N/A"}, ${purchase.country || "N/A"}</p>
+            <button class="delete-btn" data-purchase-id="${purchase._id}">Delete</button>
+          `;
+
+          orderList.appendChild(orderItem);
+        });
+
+        // Attach event listeners to delete buttons
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+        deleteButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const purchaseId = e.target.dataset.purchaseId;
+            deletePurchase(userId, purchaseId);
+          });
+        });
+      } else {
+        noOrdersMessage.style.display = "block";
+      }
+    } catch (error) {
+      console.error("Failed to fetch order history:", error);
+    }
+  }
+
+  // Delete a specific purchase
+  async function deletePurchase(userId, purchaseId) {
+    try {
+      const response = await fetch(`/users/order-history/${userId}/${purchaseId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        alert("Purchase deleted successfully.");
+		location.reload();
+      } else {
+        alert("Failed to delete purchase.");
+      }
+    } catch (error) {
+      console.error("Error deleting purchase:", error);
+    }
+  }
+
+  const userId = "<%= user._id %>";
+  fetchOrderHistory(userId);
+		</script>
+	</body>
+</html>
