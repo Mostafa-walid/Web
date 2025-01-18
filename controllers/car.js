@@ -40,3 +40,25 @@ const deleteCar = async (req, res) => {
     res.status(500).json({ errMsg: error });
   }
 };
+const getCars = async (req, res) => {
+  try {
+    const cars = await Car.find();
+    res.json(cars);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+const getCarById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const car = await Car.findById(id);
+    if (!car) {
+      return res.status(404).json({ message: "Car not found" });
+    }
+    res.json(car);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
