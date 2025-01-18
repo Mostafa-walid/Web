@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>User Attributes</title>
+		<link rel="stylesheet" href="/css/navbar.css" />
+		<link rel="stylesheet" href="/css/userDetails.css" />
+	</head>
+	<body>
+		<nav>
+			<div class="logo">
+				<i class="ri-steering-2-line"></i>
+				<a href="/"><span>MAH</span>motors</a>
+			</div>
+			<div class="menubar">
+				<a href="/admin/<%=user._id%>/users">Users</a>
+				<a href="/admin/<%=user._id%>/cars">Cars</a>
+				<a href="/admin/<%=user._id%>/orders">Orders</a>
+				<a href="/logout">Logout</a>
+			</div>
+		</nav>
+		<div class="container">
+			<h1>User Details</h1>
+			<ul>
+				<li><strong>Role: </strong> <%= targetUser.role %></li>
+				<li><strong>Username:</strong> <%= targetUser.username %></li>
+				<li><strong>Email:</strong> <%= targetUser.email %></li>
+				<li>
+					<strong>Purchases:</strong>
+					<ul>
+						<% if (targetUser.purchases.length > 0) { %> <%
+						targetUser.purchases.forEach((purchase) => { %>
+						<li>
+							<strong>Car ID:</strong> <%= purchase.carId %>
+							<br />
+							<strong>Purchase Type:</strong> <%=
+							purchase.purchaseType %>
+							<br />
+							<hr />
+						</li>
+						<% }); %> <% } else { %>
+						<li>No Purchases</li>
+						<% } %>
+					</ul>
+				</li>
+			</ul>
+
+			
+			<div class="actions">
+				
+				<a href="/admin/<%= user._id %>/users" class="btn">Back</a>
+
+				
+				<a
+					href="/admin/<%= user._id %>/edit-user/<%= targetUser._id %>"
+					class="btn"
+					>Edit</a
+				>
+			</div>
+		</div>
+	</body>
+</html>
