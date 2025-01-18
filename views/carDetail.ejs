@@ -79,3 +79,70 @@
             </tr>
           </table>
         </div>
+ <div class="table-container">
+          <h3>Addtional specs</h3>
+          <table>
+            <tr>
+              <th>Length</th>
+              <td><%= car.length %> inches</td>
+            </tr>
+            <tr>
+              <th>Width</th>
+              <td><%= car.width %> inches</td>
+            </tr>
+            <tr>
+              <th>Height</th>
+              <td><%= car.height %> inches</td>
+            </tr>
+            <tr>
+              <th>Wheelbase</th>
+              <td><%= car.wheelbase %> inches</td>
+            </tr>
+            <tr>
+              <th>Color</th>
+              <td><%= car.color %></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <% if(car.quantity > 0) { %>
+        <% if(user !== false) { %>
+          <div>
+            <a
+              class="btn"
+              href="/user/<%= user._id %>/cars-details/<%= car._id %>/purchase"
+              >Buy now</a>
+          </div>
+        <% } else { %>
+          <div>
+            <button class="btn" id="buy-btn">Buy now</button>
+          </div>
+        <% } %>
+      <% } else { %>
+        <div>
+          <button class="btn">Out of stock</button>
+        </div>
+      <% } %>
+    </section>
+
+    <script>
+      var MainImg = document.getElementById("MainImg");
+      var smallimg = document.getElementsByClassName("small-img");
+
+      for (var i = 0; i < smallimg.length; i++) {
+        smallimg[i].onclick = function () {
+          MainImg.src = this.src;
+        };
+      }
+    </script>
+
+    <script type="module">
+      import showMsg from "/js/toastify.js";
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("buy-btn").addEventListener("click", () => {
+          showMsg("Should login first", "red");
+        });
+      });
+    </script>
+  </body>
+</html>
