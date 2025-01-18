@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/products.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!-- Toastify -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <title>Admin</title>
+  </head>
+
+  <body>
+    <nav>
+      <div class="logo">
+        <i class="ri-steering-2-line"></i>
+        <a href="/"><span>MAH</span>motors</a>
+      </div>
+      <div class="menubar">
+        <a href="/admin/<%=user._id%>/users">Users</a>
+        <a href="/admin/<%=user._id%>/cars">Cars</a>
+        <a href="/admin/<%=user._id%>/orders">Orders</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </nav>
+    <main>
+
+      <div class="header">
+        <h1>User Management</h1>
+            <a href="/admin/<%= user._id %>/add-user" class="btn btn-success">
+      <i class="fa-solid fa-plus"></i> Add User
+    </a>
+      </div>
+      <br />
+      <div id="PorscheCars">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(u => { %>
+            <tr id="user-<%= u._id %>">
+              <td><%= u.role %></td>
+              <td>
+                  <%= u.name %>
+              </td>
+              <td><%= u.username %></td>
+              <td><%= u.email %></td>
+              <td>
+                <div class="action-btns">
+                  <button class="delete-button" data-id="<%= u._id %>">
+                    <i class="fa-solid fa-trash"></i>
+                    <button class="edit-button" data-id="<%= u._id %>">
+                    <i class="fa-solid fa-edit"></i>
+
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
