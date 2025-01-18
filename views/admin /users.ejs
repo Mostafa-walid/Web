@@ -80,3 +80,42 @@
         </table>
       </div>
     </main>
+<script type="module">
+  import showMsg from "/js/toastify.js";
+
+  
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".edit-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const userId = button.getAttribute("data-id"); // Get the user ID
+      const adminId = "<%= user._id %>"; // Use admin ID from your EJS template
+
+      
+      window.location.href = `/admin/${adminId}/user/${userId}`;
+    });
+  });
+});
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".delete-button").forEach((button) => {
+      button.addEventListener("click", async (event) => {
+        const userId = button.getAttribute("data-id");
+
+        const response = await fetch(`/users/${userId}`, {
+          method: "DELETE",
+        });
+
+        if (response.ok) {
+          document.getElementById(`user-${userId}`).remove();
+          showMsg("User deleted successfully", "green");
+        } else {
+          showMsg("Failed to delete User", "red");
+        }
+      });
+    });
+
+   
+  });
+</script>
+
+  </body>
+</html>
