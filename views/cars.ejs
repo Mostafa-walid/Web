@@ -87,3 +87,82 @@
 				<% } %>
 			  </div>
 			  
+<br /><br /><br /><br />
+		</div>
+		
+	</body>
+	<script>
+		let currentPage = 1; 
+		let totalPages = 1;
+
+		async function fetchCars() {
+			const response = await fetch(`/cars?page=${currentPage}&limit=10`);
+			const data = await response.json();
+
+			
+			const carList = document.getElementById("car-list");
+			carList.innerHTML = ""; 
+
+			data.cars.forEach(car => {
+				const carItem = document.createElement("div");
+				carItem.classList.add("Cars-Collage");
+				carItem.innerHTML = `
+					<div class="single-car">
+						<div class="single-car-image-box">
+							<a href="cars-details/${car._id}">
+								<div class="car-image">
+									<img src="${car.images[0]}" alt="${car.type}" />
+								</div>
+							</a>
+							<div class="car-model-info">
+								<p>model: ${car.yearOfManufacture}<br />
+								<span class="featured-mi-span">CC : ${car.cc}<br /></span>
+								<span class="featured-hp-span">Horse Power: ${car.horsePower}<br /></span>
+								Transmission : ${car.transmission}</p>
+							</div>
+						</div>
+						<div class="cars-txt">
+							<h2><a href="cars-details/${car._id}">${car.type} ${car.model}</a></h2>
+							<h3>$${car.price.toLocaleString()}</h3>
+							<p>${car.description}</p>
+						</div>
+					</div>
+				`;
+				carList.appendChild(carItem);
+			});
+
+			
+			totalPages = data.totalPages;
+			document.getElementById("current-page").innerText = currentPage;
+			document.getElementById("total-pages").innerText = totalPages;
+
+		
+			document.getElementById("prev-btn").disabled = currentPage === 1;
+			document.getElementById("next-btn").disabled = currentPage === totalPages;
+		}
+
+		function changePage(page) {
+			if (page < 1 || page > totalPages) return;
+			currentPage = page;
+			fetchCars();
+		}
+
+		
+		fetchCars();
+
+		function filterCars() {
+			const query = document.getElementById('searchInput').value.toLowerCase();
+			const cars = document.querySelectorAll('.Cars-Collage');
+
+			cars.forEach(car => {
+				const type = car.querySelector('.cars-txt h2').innerText.toLowerCase();
+				const details = car.querySelector('.car-model-info p').innerText.toLowerCase();
+
+				if (type.includes(query) || details.includes(query)) {
+					car.style.display = 'block';
+				} else {
+					car.style.display = 'none';
+				}
+			});
+		}
+	</script>
