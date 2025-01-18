@@ -40,3 +40,49 @@ router.get("/cars-details/:id", async (req, res) => {
 		car: await Car.findById(req.params.id),
 	});
 });
+router.get("/user/:userId", async (req, res) => {
+	res.render("index", {
+		user: await User.findById(req.params.userId),
+		cars: await Car.find().limit(4),
+	});
+});
+
+router.get("/user/:userId/profile", async (req, res) => {
+	try {
+		const user = await User.findById(req.params.userId).select(
+			"-purchases -password"
+		);
+
+		if (!user) {
+			return res.status(404).send("User not found");
+		}
+
+		res.render("profile", { user });
+	} catch (error) {
+		console.error(error);
+		res.status(500).send("Server error");
+	}
+});
+
+router.get("/user/:userId/cars", async (req, res) => {
+	const userId = req.params.userId;
+	const page = parseInt(req.query.page) || 1; 
+	const limit = parseInt(req.query.limit) || 2; 
+  
+	const carsCount = await Car.countDocuments(); 
+	const totalPages = Math.ceil(carsCount / limit);   
+
+	const currentPage = Math.min(page, totalPages);
+  
+
+	const cars = await Car.find()
+	  .skip((currentPage - 1) * limit) 
+	  .limit(limit); 
+  
+	res.render("cars", {
+	  user: await User.findById(userId),
+	  cars: cars,
+	  currentPage: currentPage, 
+	  totalPages: totalPages, 
+	});
+  });
