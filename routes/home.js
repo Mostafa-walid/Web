@@ -86,3 +86,29 @@ router.get("/user/:userId/cars", async (req, res) => {
 	  totalPages: totalPages, 
 	});
   });
+router.get("/user/:userId/cars-details/:carId", async (req, res) => {
+	res.render("carDetail", {
+		user: await User.findById(req.params.userId),
+		car: await Car.findById(req.params.carId),
+	});
+});
+
+router.get("/user/:userId/cars-details/:carId/purchase", async (req, res) => {
+	res.render("purchase", {
+		user: await User.findById(req.params.userId),
+		car: await Car.findById(req.params.carId),
+	});
+});
+
+router.get("/signin", signIn_get);
+router.post("/signin", signIn_post);
+
+router.get("/signup", signUp_get);
+router.post("/signup", signUp_post);
+
+router.get("/logout", (req, res) => {
+	res.cookie("jwt", "", { maxAge: 1 });
+	res.redirect("/");
+});
+
+export default router;
