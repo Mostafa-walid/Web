@@ -83,3 +83,53 @@ function selectInstallment() {
 
   enablePayNowButton(); // Enable Pay Now button
 }
+function enablePayNowButton() {
+  var payNowButton = document.getElementById("payNowButton");
+  payNowButton.disabled = false; // Enable the Pay Now button when all conditions are met
+}
+
+function validateForm() {
+  var countryInput = document.getElementById("country");
+  var cityInput = document.getElementById("city");
+  var streetInput = document.getElementById("street");
+  var paymentRadios = document.getElementsByName("payment");
+  var installmentRadios = document.getElementsByName("installment");
+
+  // Validate form inputs
+  if (countryInput.value.trim() === "" || cityInput.value.trim() === "" || streetInput.value.trim() === "") {
+    alert("Please fill in all required fields.");
+    return false;
+  }
+
+  var selectedPayment = getSelectedRadioValue(paymentRadios);
+  if (!selectedPayment) {
+    alert("Please select a payment method.");
+    return false;
+  }
+
+  if (selectedPayment === "installments" && !getSelectedRadioValue(installmentRadios)) {
+    alert("Please select an installment plan.");
+    return false;
+  }
+
+  return true;
+}
+
+function getSelectedRadioValue(radioButtons) {
+  for (var i = 0; i < radioButtons.length; i++) {
+    if (radioButtons[i].checked) {
+      return radioButtons[i].value;
+    }
+  }
+  return null;
+}
+
+document
+  .getElementById("payNowButton")
+  .addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent default form submission
+    if (validateForm()) {
+      // Form is valid, proceed with payment info page
+      window.location.href = "paymentinfo.html";
+    }
+  });
