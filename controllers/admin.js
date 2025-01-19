@@ -153,23 +153,41 @@ const deletePurchase = async (req, res) => {
 	try {
 		const { userId, purchaseId } = req.params;
 
-		// Find the user and remove the purchase
+		// Find the user
 		const user = await User.findById(userId);
 		if (!user) {
 			return res.status(404).send("User not found");
 		}
 
+		// Find the purchase to be deleted
+		const purchase = user.purchases.find(
+			(p) => p._id.toString() === purchaseId
+		);
+		if (!purchase) {
+			return res.status(404).send("Purchase not found");
+		}
+
+		// Find the associated car and increment its quantity
+		const car = await Car.findById(purchase.carId); // Assuming `carId` is stored in the purchase object
+		if (!car) {
+			return res.status(404).send("Car not found");
+		}
+		car.quantity += 1; // Increment the car's quantity
+		await car.save();
+
+		// Remove the purchase from the user's purchases
 		user.purchases = user.purchases.filter(
 			(p) => p._id.toString() !== purchaseId
 		);
 		await user.save();
 
-		res.status(200).json({ message: "Purchase deleted successfully" });
+		res.status(200).json({ message: "Purchase deleted and car quantity updated successfully" });
 	} catch (error) {
 		console.error("Error deleting purchase:", error);
 		res.status(500).json({ error: "Server error" });
 	}
 };
+
 
 const getAddUserPage = async (req, res) => {
 	try {
